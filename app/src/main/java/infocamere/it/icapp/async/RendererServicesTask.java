@@ -49,7 +49,7 @@ public class RendererServicesTask extends AsyncTask<Void, Void, Void> implements
 
         // specify an adapter (see also next example)
 
-        adapter = new RVAdapter(generateItemUi(), this);
+        /*adapter = new RVAdapter(generateItemUi(), this);*/
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rv);

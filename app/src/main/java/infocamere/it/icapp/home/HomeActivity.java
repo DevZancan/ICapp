@@ -114,7 +114,8 @@ public class HomeActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        adapter = new RVAdapter(generateItemUi(), this);
+        //adapter = new RVAdapter(generateItemUi(), this);
+        adapter = new RVAdapter(HomeActivity.this, generateItemUiPref(), this);
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -351,27 +352,94 @@ public class HomeActivity extends AppCompatActivity
     private void insertServicesIC() {
         ServiceIC svcIC = new ServiceIC();
         svcIC.setSvcId("1");
+        svcIC.setSvcPref(0);
         svcIC.setSvcName("Presenze");
         svcIC.setSvcVisible(true);
         svcICRepo.insert(svcIC);
 
         svcIC = new ServiceIC();
         svcIC.setSvcId("2");
+        svcIC.setSvcPref(1);
         svcIC.setSvcName("Trasferte");
         svcIC.setSvcVisible(true);
         svcICRepo.insert(svcIC);
 
         svcIC = new ServiceIC();
         svcIC.setSvcId("3");
+        svcIC.setSvcPref(2);
         svcIC.setSvcName("News");
         svcIC.setSvcVisible(true);
         svcICRepo.insert(svcIC);
 
         svcIC = new ServiceIC();
         svcIC.setSvcId("4");
+        svcIC.setSvcPref(3);
         svcIC.setSvcName("Uscita");
         svcIC.setSvcVisible(true);
         svcICRepo.insert(svcIC);
+    }
+
+    private List<ItemUI> generateItemUiPref() {
+
+        Cursor c = svcICRepo.getServiceICFromPref();
+        ServiceIC svc = new ServiceIC();
+        List<ItemUI> itemUIModelList = new ArrayList<>();
+        ItemUI itemUI = null;
+
+        if (c.moveToFirst()) {
+            do {
+                svc.setSvcId(c.getString(c.getColumnIndex(ServiceIC.KEY_ID)));
+                svc.setSvcPref(c.getInt(c.getColumnIndex(ServiceIC.KEY_PREFID)));
+                svc.setSvcName(c.getString(c.getColumnIndex(ServiceIC.KEY_serviceName)));
+                svc.setSvcVisible(
+                        c.getInt(c.getColumnIndex(ServiceIC.KEY_serviceVisible)) > 0);
+
+                if (svc.getSvcName().contains("Presenze")) {
+                    Log.i("GENERATE", "PRESENZE");
+                    itemUI = new ItemUI("#393185", svc.getSvcId(), "Il mio profilo",
+                            svc.getSvcName(), "Gestisci il tuo foglio presenze. Tocca per vedere " +
+                            "timbrature, anomalie, salidi e giustificativi.", "tempo2");
+                }
+                else if (svc.getSvcName().contains("Trasferte")) {
+                    Log.i("GENERATE", "TRASFERTE");
+                    itemUI = new ItemUI("#E83E00", svc.getSvcId(), "Il mio profilo",
+                            svc.getSvcName(), "Gestisci le tue trasferte", "trasferte");
+                }
+                else {
+                    Log.i("GENERATE", "ALTRO");
+                    itemUI = new ItemUI("#3F9CDC", svc.getSvcId(), "Il mio profilo",
+                            svc.getSvcName(), "Gestisci il tuo foglio presenze. Tocca per vedere " +
+                            "timbrature, anomalie, salidi e giustificativi.", "tempo2");
+                }
+
+                itemUIModelList.add(itemUI);
+            } while (c.moveToNext());
+        }
+
+        /*
+        itemUI = new ItemUI("#393185", "item_1", "Il mio profilo",
+                "Presenze", "Gestisci il tuo foglio presenze. Tocca per vedere " +
+                "timbrature, anomalie, salidi e giustificativi.", "tempo2");
+
+        itemUIModelList.add(itemUI);
+
+        itemUI = new ItemUI("#E83E00", "item_2", "Il mio profilo",
+                "Trasferte", "", "trasferte");
+
+        itemUIModelList.add(itemUI);
+
+        itemUI = new ItemUI("#496A8D", "item_2", "Il mio profilo",
+                "Trasferte", "", "trasferte");
+
+        itemUIModelList.add(itemUI);
+
+        itemUI = new ItemUI("#3F9CDC", "item_2", "Il mio profilo",
+                "Trasferte", "", "trasferte");
+
+        itemUIModelList.add(itemUI);
+        */
+
+        return itemUIModelList;
     }
 
     private List<ItemUI> generateItemUi() {

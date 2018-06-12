@@ -53,6 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_SERVICEIC = "CREATE TABLE " + ServiceIC.TABLE  + "("
                 + ServiceIC.KEY_ROWID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + ServiceIC.KEY_ID  + " TEXT ,"
+                + ServiceIC.KEY_PREFID  + " INTEGER ,"
                 + ServiceIC.KEY_serviceName + " TEXT ,"
                 + ServiceIC.KEY_serviceVisible + " TEXT )";
 

@@ -27,6 +27,7 @@ public class ServiceICRepo {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(serviceIC.KEY_ID, serviceIC.getSvcId());
+        values.put(serviceIC.KEY_PREFID, serviceIC.getSvcPref());
         values.put(serviceIC.KEY_serviceName, serviceIC.getSvcName());
         values.put(serviceIC.KEY_serviceVisible, serviceIC.isSvcVisible());
 
@@ -56,6 +57,42 @@ public class ServiceICRepo {
                         cursor.getInt(cursor.getColumnIndex(ServiceIC.KEY_serviceVisible)) > 0);
                 Log.i("ServiceIC.KEY_ID", svcIC.getSvcId());
                 Log.i("ServiceIC Name ", svcIC.getSvcName());
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor == null) {
+            return null;
+        }
+        else if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
+
+        return cursor;
+    }
+
+    public Cursor getServiceICFromPref() {
+        Log.i("Service IC ", "getServiceICById");
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String selectQuery =  "SELECT * " +
+                "FROM " + ServiceIC.TABLE
+                + " ORDER BY " +
+                ServiceIC.KEY_PREFID;// It's a good practice to use parameter ?, instead of concatenate string
+
+        ServiceIC serviceIC = new ServiceIC();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                serviceIC.setSvcId(cursor.getString(cursor.getColumnIndex(ServiceIC.KEY_ID)));
+                serviceIC.setSvcPref(cursor.getInt(cursor.getColumnIndex(ServiceIC.KEY_PREFID)));
+                serviceIC.setSvcName(cursor.getString(cursor.getColumnIndex(ServiceIC.KEY_serviceName)));
+                serviceIC.setSvcVisible(
+                        cursor.getInt(cursor.getColumnIndex(ServiceIC.KEY_serviceVisible)) > 0);
+                Log.i("ServiceIC.KEY_ID", serviceIC.getSvcId());
+                Log.i("ServiceIC.KEY_PREFID", String.valueOf(serviceIC.getSvcPref()));
+                Log.i("Service Name ", serviceIC.getSvcName());
             } while (cursor.moveToNext());
         }
 

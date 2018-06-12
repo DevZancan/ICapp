@@ -16,10 +16,12 @@ public class ServiceIC {
     // Labels Table Columns names
     public static final String KEY_ROWID = "_id";
     public static final String KEY_ID = "svc_id";
+    public static final String KEY_PREFID = "svc_pref";
     public static final String KEY_serviceName = "svc_name";
     public static final String KEY_serviceVisible = "svc_visible";
 
     private String svcId;
+    private int svcPref;
     private String svcName;
     private boolean svcVisible;
 
@@ -76,10 +78,19 @@ public class ServiceIC {
         this.svcVisible = svcVisible;
     }
 
+    public int getSvcPref() {
+        return svcPref;
+    }
+
+    public void setSvcPref(int svcPref) {
+        this.svcPref = svcPref;
+    }
+
     @Override
     public String toString() {
         return "ServiceIC{" +
                 "svcId='" + svcId + '\'' +
+                ", svcPref='" + svcPref + '\'' +
                 ", svcName='" + svcName + '\'' +
                 ", svcVisible=" + svcVisible +
                 '}';

@@ -6,7 +6,10 @@
 
 package infocamere.it.icapp.util.adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -25,34 +28,53 @@ import java.util.Collections;
 import java.util.List;
 
 import infocamere.it.icapp.R;
+import infocamere.it.icapp.model.ServiceIC;
 import infocamere.it.icapp.sipert.SipertTabActivity;
 import infocamere.it.icapp.model.ItemUI;
 import infocamere.it.icapp.search.SearchableActivity;
 import infocamere.it.icapp.splash.SplashActivity;
+import infocamere.it.icapp.util.db.DBHelper;
+import infocamere.it.icapp.util.db.ServiceICRepo;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> implements ItemTouchHelperAdapter {
 
     List<ItemUI> items;
     private  OnStartDragListener mDragStartListener;
+    private Context context;
 
-    public RVAdapter(List<ItemUI> items, OnStartDragListener mDragStartListener) {
+    public RVAdapter(Context context, List<ItemUI> items, OnStartDragListener mDragStartListener) {
+        this.context = context;
         this.items = items;
         this.mDragStartListener = mDragStartListener;
     }
 
     @Override
     public void onItemMove(int fromIndex, int toIndex) {
+        Log.i("onItemMove", "from --> " + fromIndex + " to --> " + toIndex);
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db.execSQL("UPDATE " + ServiceIC.TABLE + " SET " +  ServiceIC.KEY_PREFID + "=" + toIndex + " WHERE " + ServiceIC.KEY_PREFID + "=" + fromIndex);
         if (fromIndex < items.size() && toIndex < items.size()) {
+
             if (fromIndex < toIndex) {
                 for (int i = fromIndex; i < toIndex; i++) {
                     Collections.swap(items, i, i + 1);
+                    Log.i("CICLO", "i --> " + i + " itemsUI " + items.get(i).getTitle());
+                    db.execSQL("UPDATE " + ServiceIC.TABLE + " SET " +  ServiceIC.KEY_PREFID + "="
+                            + i + " WHERE " + ServiceIC.KEY_ID + "=" + items.get(i).getItemId());
                 }
             } else {
                 for (int i = fromIndex; i > toIndex; i--) {
                     Collections.swap(items, i, i - 1);
+                    db.execSQL("UPDATE " + ServiceIC.TABLE + " SET " +  ServiceIC.KEY_PREFID + "="
+                            + i + " WHERE " + ServiceIC.KEY_ID + "=" + items.get(i).getItemId());
+                    Log.i("CICLO", "i --> " + i + " itemsUI " + items.get(i).getTitle());
                 }
             }
+
             notifyItemMoved(fromIndex, toIndex);
+
         }
     }
 
@@ -162,6 +184,39 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
                 return false;
             }
         });
+
+    }
+
+    private void insertServicesIC() {
+        ServiceICRepo svcICRepo = new ServiceICRepo(context);
+
+        ServiceIC svcIC = new ServiceIC();
+        svcIC.setSvcId("1");
+        svcIC.setSvcPref(0);
+        svcIC.setSvcName("Presenze");
+        svcIC.setSvcVisible(true);
+        svcICRepo.insert(svcIC);
+
+        svcIC = new ServiceIC();
+        svcIC.setSvcId("2");
+        svcIC.setSvcPref(1);
+        svcIC.setSvcName("Trasferte");
+        svcIC.setSvcVisible(true);
+        svcICRepo.insert(svcIC);
+
+        svcIC = new ServiceIC();
+        svcIC.setSvcId("3");
+        svcIC.setSvcPref(2);
+        svcIC.setSvcName("News");
+        svcIC.setSvcVisible(true);
+        svcICRepo.insert(svcIC);
+
+        svcIC = new ServiceIC();
+        svcIC.setSvcId("4");
+        svcIC.setSvcPref(3);
+        svcIC.setSvcName("Uscita");
+        svcIC.setSvcVisible(true);
+        svcICRepo.insert(svcIC);
     }
 
     @Override
