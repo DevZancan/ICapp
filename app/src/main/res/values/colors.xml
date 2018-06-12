@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blueviolet">#3F51B5</color>
+    <color name="bluvioletDark">#303F9F</color>
+    <color name="colorAccentHard">#FF4081</color>
+
+    <color name="colorPrimaryDark">#03396C</color>
+    <color name="colorPrimary">#3377D8</color>
+    <color name="colorAccent">#E78EA4</color>
+    <color name="colorPrimaryZebra">#FFFFFF</color>
+    <color name="colorSecondaryZebra">#f6f6f6</color>
+    <color name="colorSecondaryZebraLight">#EEEEEE</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="greenic">#2CBC36</color>
+    <color name="infocamereintranet">#095EAF</color>
+    <color name="redic">#E83E00</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>
+

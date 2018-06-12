@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Nome"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Cognome"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Id"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/txtCdr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cdr"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/txtMatricola"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="matricola"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/txtPhoneFix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="phoneFix"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/txtPhoneMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="phoneMobile"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/txtSede"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sede"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/txtOffice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="office"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="email@instinctcoder.com"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
