@@ -11,10 +11,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +44,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
     List<ItemUI> items;
     private  OnStartDragListener mDragStartListener;
     private Context context;
+    private ItemUIViewHolder holderUi;
 
     public RVAdapter(Context context, List<ItemUI> items, OnStartDragListener mDragStartListener) {
         this.context = context;
@@ -74,7 +78,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
             }
 
             notifyItemMoved(fromIndex, toIndex);
-
         }
     }
 
@@ -169,6 +172,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
             }
         });
 
+        holderUi = holder;
+
         holder.itemView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -177,46 +182,35 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
                         @Override
                         public boolean onLongClick(View v) {
                             mDragStartListener.onStartDrag(holder);
+                            float scalingFactor = 0.9f; // scale down to half the size
+                            holder.itemView.setScaleX(scalingFactor);
+                            holder.itemView.setScaleY(scalingFactor);
+                            Log.d("touch", "down");
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    float scalingFactor = 1.0f; // scale down to half the size
+                                    holder.itemView.setScaleX(scalingFactor);
+                                    holder.itemView.setScaleY(scalingFactor);
+                                }
+
+                            }, 1000);
                             return false;
                         }
                     });
+                } if (event.getAction() == MotionEvent.ACTION_UP) {
+                    float scalingFactor = 1.0f; // scale down to half the size
+                    holder.itemView.setScaleX(scalingFactor);
+                    holder.itemView.setScaleY(scalingFactor);
+                    Log.d("touch", "release");
                 }
+                Log.d("touch", "touch");
                 return false;
             }
         });
 
-    }
-
-    private void insertServicesIC() {
-        ServiceICRepo svcICRepo = new ServiceICRepo(context);
-
-        ServiceIC svcIC = new ServiceIC();
-        svcIC.setSvcId("1");
-        svcIC.setSvcPref(0);
-        svcIC.setSvcName("Presenze");
-        svcIC.setSvcVisible(true);
-        svcICRepo.insert(svcIC);
-
-        svcIC = new ServiceIC();
-        svcIC.setSvcId("2");
-        svcIC.setSvcPref(1);
-        svcIC.setSvcName("Trasferte");
-        svcIC.setSvcVisible(true);
-        svcICRepo.insert(svcIC);
-
-        svcIC = new ServiceIC();
-        svcIC.setSvcId("3");
-        svcIC.setSvcPref(2);
-        svcIC.setSvcName("News");
-        svcIC.setSvcVisible(true);
-        svcICRepo.insert(svcIC);
-
-        svcIC = new ServiceIC();
-        svcIC.setSvcId("4");
-        svcIC.setSvcPref(3);
-        svcIC.setSvcName("Uscita");
-        svcIC.setSvcVisible(true);
-        svcICRepo.insert(svcIC);
     }
 
     @Override
