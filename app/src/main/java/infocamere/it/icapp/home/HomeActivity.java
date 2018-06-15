@@ -9,6 +9,7 @@ package infocamere.it.icapp.home;
 import android.app.SearchManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -28,7 +29,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import infocamere.it.icapp.R;
@@ -61,6 +73,7 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
         toolbar.setTitle("IC APP");
         setSupportActionBar(toolbar);
 
@@ -104,13 +117,30 @@ public class HomeActivity extends AppCompatActivity
         }
 
         /*
+        Genero il token dell'app
+         */
+        try {
+            InputStream is=getResources().openRawResource(R.raw.service_fcm);
+            File tempfile=File.createTempFile("tempfile",".json",getDir("filez",0));
+
+            FileOutputStream os=new FileOutputStream(tempfile);
+            byte[] buffer=new byte[16000];
+            int length=0;
+            while((length=is.read(buffer))!=-1){
+                os.write(buffer,0,length);
+            }
+            FileInputStream fis =new FileInputStream(tempfile);
+            Log.d("oauth", "token app " + getAccessToken(fis));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("Firebase", "token device "+ FirebaseInstanceId.getInstance().getToken());
+
+        /*
         Inizia la costruzione del contenuto della pagina
         */
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
-
         mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -135,6 +165,18 @@ public class HomeActivity extends AppCompatActivity
         // RVAdapter adapter = new RVAdapter(generateItemUi());
         //
         // mRecyclerView.setAdapter(adapter);
+    }
+
+    private static String getAccessToken(FileInputStream fis) throws IOException {
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        GoogleCredential googleCredential = GoogleCredential
+                .fromStream(fis)
+                .createScoped(Arrays.asList("https://www.googleapis.com/auth/firebase.messaging"));
+        googleCredential.refreshToken();
+        return googleCredential.getAccessToken();
     }
 
     private void insertDummy(){

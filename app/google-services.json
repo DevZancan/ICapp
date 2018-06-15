@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "646650239466",
+    "firebase_url": "https://icapp-27d07.firebaseio.com",
+    "project_id": "icapp-27d07",
+    "storage_bucket": "icapp-27d07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646650239466:android:cbab49152dbd3b8d",
+        "android_client_info": {
+          "package_name": "infocamere.it.icapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646650239466-nnfajaamarjjnsaejvf2dqut8fam9ecq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "infocamere.it.icapp",
+            "certificate_hash": "bb079117d923ef187af9f930ec314d574c03f4b5"
+          }
+        },
+        {
+          "client_id": "646650239466-vkvmnh0ri8p7u2b8s1cgfm20ujo1rfki.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "646650239466-vkvmnh0ri8p7u2b8s1cgfm20ujo1rfki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiQfjsvVHvh1itRYeYTP-V8mGEtDGnzng"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646650239466-vkvmnh0ri8p7u2b8s1cgfm20ujo1rfki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

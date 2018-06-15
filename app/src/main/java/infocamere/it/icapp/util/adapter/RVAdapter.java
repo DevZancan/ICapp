@@ -197,16 +197,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
                                 }
 
                             }, 1000);
-                            return false;
+                            return true;
                         }
                     });
-                } if (event.getAction() == MotionEvent.ACTION_UP) {
-                    float scalingFactor = 1.0f; // scale down to half the size
-                    holder.itemView.setScaleX(scalingFactor);
-                    holder.itemView.setScaleY(scalingFactor);
-                    Log.d("touch", "release");
                 }
-                Log.d("touch", "touch");
                 return false;
             }
         });
