@@ -171,8 +171,6 @@ public class HomeActivity extends AppCompatActivity
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(adapter);
 
-        mRecyclerView.setEnabled(false);
-        drawer.setEnabled(false);
         cardView.setVisibility(View.GONE);
         handler = new Handler();
         characterAdder = new Runnable() {
@@ -226,8 +224,6 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 layoutHelper.setVisibility(View.GONE);
                 fab.setVisibility(View.VISIBLE);
-                mRecyclerView.setEnabled(true);
-                drawer.setEnabled(true);
             }
         });
 
@@ -236,8 +232,6 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 layoutHelper.setVisibility(View.GONE);
                 fab.setVisibility(View.VISIBLE);
-                mRecyclerView.setEnabled(true);
-                drawer.setEnabled(true);
             }
         });
 
