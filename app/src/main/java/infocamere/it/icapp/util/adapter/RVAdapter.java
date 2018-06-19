@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 import infocamere.it.icapp.R;
+import infocamere.it.icapp.home.ExampleActivity;
 import infocamere.it.icapp.model.ServiceIC;
 import infocamere.it.icapp.sipert.SipertTabActivity;
 import infocamere.it.icapp.model.ItemUI;
@@ -158,7 +159,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
                         break;
 
                     case 2:
-                        Intent drawerMain = new Intent(v.getContext(), SplashActivity.class);
+                        Intent drawerMain = new Intent(v.getContext(), ExampleActivity.class);
                         v.getContext().startActivity(drawerMain);
 
                         break;

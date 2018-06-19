@@ -3,6 +3,7 @@
     <color name="blueviolet">#3F51B5</color>
     <color name="bluvioletDark">#303F9F</color>
     <color name="colorAccentHard">#FF4081</color>
+    <color name="white">#ffffff</color>
 
     <color name="colorPrimaryDark">#03396C</color>
     <color name="colorPrimary">#3377D8</color>

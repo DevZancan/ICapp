@@ -43,7 +43,8 @@
                 android:name="android.app.default_searchable"
                 android:value=".search.SearchableActivity" />
         </activity>
-        <activity android:name=".search.SearchableActivity"
+        <activity
+            android:name=".search.SearchableActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -60,7 +61,7 @@
         <activity
             android:name=".sipert.SipertTabActivity"
             android:label="@string/title_activity_sipert_tab"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".login.LoginActivity" />
 
         <service android:name=".util.IcFirebaseMessagingService">
@@ -77,6 +78,7 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
+        <activity android:name=".home.ExampleActivity"></activity>
     </application>
 
 </manifest>

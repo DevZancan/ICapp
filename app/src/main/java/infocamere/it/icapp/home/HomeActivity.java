@@ -6,14 +6,18 @@
 
 package infocamere.it.icapp.home;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -29,6 +33,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -62,10 +69,20 @@ public class HomeActivity extends AppCompatActivity
     private Cursor cursor;
     private UserICRepo userICRepo;
     private Cursor cursorSvcIC;
+    private DrawerLayout drawer;
+    private RelativeLayout layoutHelper;
+    private CardView cardView;
+    private TextView textViewHelper;
+    private Button buttonClose;
     private ServiceICRepo svcICRepo;
     private final static String TAG = HomeActivity.class.getName().toString();
     private ItemTouchHelper mItemTouchHelper;
     private RVAdapter adapter;
+    private CharSequence testoHelper = "Qui hai a disposizione vari moduli in base ai tuoi privilegi.\n\n" +
+            "Inoltre hai la possibilità di riorganizzare i vari elementi spostandoli di posizione";
+    private int index = 0;
+    Runnable characterAdder;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +90,16 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        cardView = (CardView) findViewById(R.id.cardView);
+        textViewHelper = (TextView) findViewById(R.id.textViewHelper);
+        buttonClose = (Button) findViewById(R.id.buttonClose);
+        layoutHelper = (RelativeLayout) findViewById(R.id.layoutHelper);
         toolbar.setTitle("IC APP");
         setSupportActionBar(toolbar);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +108,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
@@ -149,6 +170,76 @@ public class HomeActivity extends AppCompatActivity
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(adapter);
+
+        mRecyclerView.setEnabled(false);
+        drawer.setEnabled(false);
+        cardView.setVisibility(View.GONE);
+        handler = new Handler();
+        characterAdder = new Runnable() {
+            @Override
+            public void run() {
+                textViewHelper.setText(testoHelper.subSequence(0, index++) + "_");
+                if (index <= testoHelper.length()) {
+                    handler.postDelayed(characterAdder, 70);
+                }
+                if (index == testoHelper.length()-1) {
+                    cardView.setVisibility(View.VISIBLE);
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ObjectAnimator animation = ObjectAnimator.ofFloat(cardView, "translationY", 500f);
+                            animation.setDuration(1000);
+                            animation.start();
+                            animation.addListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    buttonClose.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+
+                                }
+
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+
+                                }
+                            });
+
+                        }
+                    }, 1000);
+                }
+            }
+        };
+        characterAdder.run();
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutHelper.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+                mRecyclerView.setEnabled(true);
+                drawer.setEnabled(true);
+            }
+        });
+
+        buttonClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutHelper.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+                mRecyclerView.setEnabled(true);
+                drawer.setEnabled(true);
+            }
+        });
 
         //new RendererServicesTask(mRecyclerView, mLayoutManager, this).execute();
 
