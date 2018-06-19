@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import infocamere.it.icapp.R;
 import infocamere.it.icapp.home.HomeActivity;
+import infocamere.it.icapp.login.LoginActivity;
 import infocamere.it.icapp.unlocker.UnlockerActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 UnlockerActivity.class);
                 */
         Intent intent = new Intent(getApplicationContext(),
-                HomeActivity.class);
+                LoginActivity.class);
         startActivity(intent);
         finish();
     }

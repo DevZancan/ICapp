@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".settings.SettingsActivity">
+
+    <Button
+        android:id="@+id/account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_vpn_key_black_24dp"
+        android:text="Account"
+        android:drawablePadding="16dp"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:padding="16dp"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:text="Logout"
+        android:textColor="#df3a3a"
+        style="?android:attr/borderlessButtonStyle" />
+
+</LinearLayout>

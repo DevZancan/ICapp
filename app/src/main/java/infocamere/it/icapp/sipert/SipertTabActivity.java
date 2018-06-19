@@ -7,10 +7,15 @@
 package infocamere.it.icapp.sipert;
 
 import android.app.SearchManager;
+import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
@@ -50,14 +55,16 @@ import java.util.Map;
 
 import infocamere.it.icapp.AppBaseActivity;
 import infocamere.it.icapp.R;
+import infocamere.it.icapp.home.HomeActivity;
 import infocamere.it.icapp.model.presenze.Saldi;
 import infocamere.it.icapp.model.presenze.Timbratura;
 import infocamere.it.icapp.model.presenze.Timbrature;
+import infocamere.it.icapp.settings.SettingsActivity;
 import infocamere.it.icapp.util.GeneralUtils;
 
 import static infocamere.it.icapp.R.color.redic;
 
-public class SipertTabActivity extends AppBaseActivity {
+public class SipertTabActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -77,14 +84,25 @@ public class SipertTabActivity extends AppBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sipert_tab);
+        setContentView(R.layout.activity_sipert);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setSupportActionBar(toolbar);
+        setTitle("IC APP");
 
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        this.setTitle("IC APP");
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -113,15 +131,15 @@ public class SipertTabActivity extends AppBaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sipert_tab, menu);
+        getMenuInflater().inflate(R.menu.drawer_nav_main, menu);
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(
-                R.id.action_search));
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -136,6 +154,43 @@ public class SipertTabActivity extends AppBaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+            Intent vIntent = new Intent(SipertTabActivity.this, SettingsActivity.class);
+            startActivity(vIntent);
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            finish();
+            super.onBackPressed();
+        }
     }
 
     /**

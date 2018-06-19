@@ -7,6 +7,7 @@
 package infocamere.it.icapp.home;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -30,8 +31,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.File;
@@ -44,10 +43,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import infocamere.it.icapp.R;
-import infocamere.it.icapp.async.RendererServicesTask;
 import infocamere.it.icapp.model.ItemUI;
 import infocamere.it.icapp.model.ServiceIC;
 import infocamere.it.icapp.model.UserIC;
+import infocamere.it.icapp.settings.SettingsActivity;
 import infocamere.it.icapp.util.ItemTouchHelperCallback;
 import infocamere.it.icapp.util.adapter.OnStartDragListener;
 import infocamere.it.icapp.util.adapter.RVAdapter;
@@ -552,6 +551,7 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            finish();
             super.onBackPressed();
         }
     }
@@ -598,7 +598,8 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
+            Intent vIntent = new Intent(HomeActivity.this, SettingsActivity.class);
+            startActivity(vIntent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
