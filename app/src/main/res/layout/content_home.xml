@@ -5,7 +5,7 @@
   ~ 29/05/18 11.23
   -->
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,61 +13,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".home.HomeActivity"
     tools:showIn="@layout/app_bar_home">
-
-    <RelativeLayout
-        android:id="@+id/layoutHelper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="3dp"
-        android:background="#b14e4e4e">
-
-        <TextView
-            android:id="@+id/textViewHelper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Qui hai a disposizione vari moduli"
-            android:textSize="20dp"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:padding="24dp"/>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_margin="24dp"
-            app:cardCornerRadius="8dp"
-            android:background="#FFFFFF"
-            android:layout_below="@id/textViewHelper">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/click_gesture"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <Button
-            android:id="@+id/buttonClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="OK"
-            android:textColor="#FFFFFF"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="16dp"/>
-
-    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rv"
@@ -77,6 +22,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment android:name="infocamere.it.icapp.home.HelperFragment"
+        android:id="@+id/fragmentHelper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <!--
     <ProgressBar
@@ -88,4 +38,4 @@
         android:layout_marginRight="5dp" />
     -->
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

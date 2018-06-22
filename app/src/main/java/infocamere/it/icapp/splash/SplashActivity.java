@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 UnlockerActivity.class);
                 */
         Intent intent = new Intent(getApplicationContext(),
-                LoginActivity.class);
+                HomeActivity.class);
         startActivity(intent);
         finish();
     }

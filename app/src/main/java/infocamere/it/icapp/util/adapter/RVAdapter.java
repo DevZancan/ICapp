@@ -8,6 +8,7 @@ package infocamere.it.icapp.util.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -46,6 +47,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
     private  OnStartDragListener mDragStartListener;
     private Context context;
     private ItemUIViewHolder holderUi;
+    private SharedPreferences sharedPreferences;
 
     public RVAdapter(Context context, List<ItemUI> items, OnStartDragListener mDragStartListener) {
         this.context = context;
@@ -129,6 +131,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ItemUIViewHolder holder, final int position) {
+        sharedPreferences = context.getSharedPreferences("login", Context.MODE_PRIVATE);
         holder.header.setText(items.get(position).getHeaderTitle());
         holder.titleSection.setText(items.get(position).getTitle());
         holder.subtitleSection.setText(items.get(position).getSubtitle());
@@ -143,32 +146,33 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!sharedPreferences.getBoolean("firstOpen", true)) {
+                    switch (position) {
 
-                switch (position) {
+                        case 0:
+                            Intent presenze = new Intent(v.getContext(), SipertTabActivity.class);
+                            v.getContext().startActivity(presenze);
 
-                    case 0:
-                        Intent presenze = new Intent(v.getContext(), SipertTabActivity.class);
-                        v.getContext().startActivity(presenze);
+                            break;
 
-                        break;
+                        case 1:
+                            Intent trasferte = new Intent(v.getContext(), SearchableActivity.class);
+                            v.getContext().startActivity(trasferte);
 
-                    case 1:
-                        Intent trasferte = new Intent(v.getContext(), SearchableActivity.class);
-                        v.getContext().startActivity(trasferte);
+                            break;
 
-                        break;
+                        case 2:
+                            Intent drawerMain = new Intent(v.getContext(), ExampleActivity.class);
+                            v.getContext().startActivity(drawerMain);
 
-                    case 2:
-                        Intent drawerMain = new Intent(v.getContext(), ExampleActivity.class);
-                        v.getContext().startActivity(drawerMain);
+                            break;
 
-                        break;
-
-                    default:
-                        Toast.makeText(
-                                v.getContext(),
-                                "Position: " + position,
-                                Toast.LENGTH_LONG).show();
+                        default:
+                            Toast.makeText(
+                                    v.getContext(),
+                                    "Position: " + position,
+                                    Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -178,29 +182,31 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemUIViewHolder> 
         holder.itemView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            mDragStartListener.onStartDrag(holder);
-                            float scalingFactor = 0.9f; // scale down to half the size
-                            holder.itemView.setScaleX(scalingFactor);
-                            holder.itemView.setScaleY(scalingFactor);
-                            Log.d("touch", "down");
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
+                if (!sharedPreferences.getBoolean("firstOpen", true)) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                mDragStartListener.onStartDrag(holder);
+                                float scalingFactor = 0.9f; // scale down to half the size
+                                holder.itemView.setScaleX(scalingFactor);
+                                holder.itemView.setScaleY(scalingFactor);
+                                Log.d("touch", "down");
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    float scalingFactor = 1.0f; // scale down to half the size
-                                    holder.itemView.setScaleX(scalingFactor);
-                                    holder.itemView.setScaleY(scalingFactor);
-                                }
+                                    @Override
+                                    public void run() {
+                                        float scalingFactor = 1.0f; // scale down to half the size
+                                        holder.itemView.setScaleX(scalingFactor);
+                                        holder.itemView.setScaleY(scalingFactor);
+                                    }
 
-                            }, 1000);
-                            return true;
-                        }
-                    });
+                                }, 1000);
+                                return true;
+                            }
+                        });
+                    }
                 }
                 return false;
             }

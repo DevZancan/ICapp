@@ -39,6 +39,10 @@ import android.widget.TextView;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,19 +74,10 @@ public class HomeActivity extends AppCompatActivity
     private UserICRepo userICRepo;
     private Cursor cursorSvcIC;
     private DrawerLayout drawer;
-    private RelativeLayout layoutHelper;
-    private CardView cardView;
-    private TextView textViewHelper;
-    private Button buttonClose;
     private ServiceICRepo svcICRepo;
     private final static String TAG = HomeActivity.class.getName().toString();
     private ItemTouchHelper mItemTouchHelper;
     private RVAdapter adapter;
-    private CharSequence testoHelper = "Qui hai a disposizione vari moduli in base ai tuoi privilegi.\n\n" +
-            "Inoltre hai la possibilità di riorganizzare i vari elementi spostandoli di posizione";
-    private int index = 0;
-    Runnable characterAdder;
-    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +85,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
-        cardView = (CardView) findViewById(R.id.cardView);
-        textViewHelper = (TextView) findViewById(R.id.textViewHelper);
-        buttonClose = (Button) findViewById(R.id.buttonClose);
-        layoutHelper = (RelativeLayout) findViewById(R.id.layoutHelper);
         toolbar.setTitle("IC APP");
         setSupportActionBar(toolbar);
 
@@ -171,69 +162,24 @@ public class HomeActivity extends AppCompatActivity
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(adapter);
 
-        cardView.setVisibility(View.GONE);
-        handler = new Handler();
-        characterAdder = new Runnable() {
-            @Override
-            public void run() {
-                textViewHelper.setText(testoHelper.subSequence(0, index++) + "_");
-                if (index <= testoHelper.length()) {
-                    handler.postDelayed(characterAdder, 70);
-                }
-                if (index == testoHelper.length()-1) {
-                    cardView.setVisibility(View.VISIBLE);
-                    Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            ObjectAnimator animation = ObjectAnimator.ofFloat(cardView, "translationY", 500f);
-                            animation.setDuration(1000);
-                            animation.start();
-                            animation.addListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("giustificativi.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            JSONObject obj = new JSONObject(json);
+            Log.d("json", obj.toString());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-                                }
 
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    buttonClose.setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-
-                                }
-                            });
-
-                        }
-                    }, 1000);
-                }
-            }
-        };
-        characterAdder.run();
-
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutHelper.setVisibility(View.GONE);
-                fab.setVisibility(View.VISIBLE);
-            }
-        });
-
-        buttonClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutHelper.setVisibility(View.GONE);
-                fab.setVisibility(View.VISIBLE);
-            }
-        });
 
         //new RendererServicesTask(mRecyclerView, mLayoutManager, this).execute();
 
